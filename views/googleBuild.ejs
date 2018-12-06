@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto', 'sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        #floating-panel {
+            background-color: #fff;
+            border: 1px solid #999;
+            left: 25%;
+            padding: 5px;
+            position: absolute;
+            top: 10px;
+            z-index: 5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+
+        // This example requires the Visualization library. Include the libraries=visualization
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+        var map, heatmap;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 5,
+                center: { lat: 20.5937, lng: 78.9629 },
+
+                draggable: true,
+                mapTypeId: 'satellite'
+            });
+
+            heatmapRed = new google.maps.visualization.HeatmapLayer({
+                data: buildRed(),
+                map: map
+            });
+            function buildRed() {
+                return [
+			<% for (i = 0; i < mapData.filterRed.length; i++) { %>
+                    new google.maps.LatLng(<%= mapData.filterRed[i].lat %>,<%= mapData.filterRed[i].lng %>) <% if (i != mapData.filterRed.length - 1) {%>, <%}%>
+				<% }%>
+			]
+            }
+
+            function buildOliveGreen() {
+                return [
+			<% for (i = 0; i < mapData.filterOliveGreen.length; i++) { %>
+                    new google.maps.LatLng(<%= mapData.filterOliveGreen[i].lat %>,<%= mapData.filterOliveGreen[i].lng %>) <% if (i != mapData.filterOliveGreen.length - 1) {%>, <%}%>
+				<% }%>
+			]
+            }
+            function buildLightGreen() {
+                return [
+			<% for (i = 0; i < mapData.filterLightGreen.length; i++) { %>
+                    new google.maps.LatLng(<%= mapData.filterLightGreen[i].lat %>,<%= mapData.filterLightGreen[i].lng %>) <% if (i != mapData.filterLightGreen.length - 1) {%>, <%}%>
+				<% }%>
+			]
+            }
+            function buildYellow() {
+                return [
+			<% for (i = 0; i < mapData.filterYellow.length; i++) { %>
+                    new google.maps.LatLng(<%= mapData.filterYellow[i].lat %>,<%= mapData.filterYellow[i].lng %>) <% if (i != mapData.filterYellow.length - 1) {%>, <%}%>
+				<% }%>
+			]
+            }
+            function buildOrange() {
+                return [
+			<% for (i = 0; i < mapData.filterOrange.length; i++) { %>
+                    new google.maps.LatLng(<%= mapData.filterOrange[i].lat %>,<%= mapData.filterOrange[i].lng %>) <% if (i != mapData.filterOrange.length - 1) {%>, <%}%>
+				<% }%>
+			]
+            }
+            var heatmapOliveGreen = new google.maps.visualization.HeatmapLayer({
+
+                data: buildOliveGreen(),
+                map: map,
+                radius: 24
+
+            });
+            var heatmapLightGreen = new google.maps.visualization.HeatmapLayer({
+
+                data: buildLightGreen(),
+                map: map,
+                radius: 24
+
+            });
+            var heatmapYellow = new google.maps.visualization.HeatmapLayer({
+
+                data: buildYellow(),
+                map: map,
+                radius: 24
+
+            });
+            var heatmapOrange = new google.maps.visualization.HeatmapLayer({
+
+                data: buildOrange(),
+                map: map,
+                radius: 24
+
+            });
+
+            var yellow = [
+                'rgba(255, 255, 0, 0)',
+                'rgba(255, 255, 0, 1)'
+            ];
+
+            var red = [
+                'rgba(255, 0, 0, 0)',
+                'rgba(255, 0, 0, 1)'
+            ];
+            var lightGreen = [
+                'rgba(0, 255, 0, 0)',
+                'rgba(0, 255, 0, 1)'
+            ];
+            var oliveGreen = [
+                'rgba(85, 107, 47, 0)',
+                'rgba(85, 107, 47, 1)'
+            ];
+            var orange = [
+                'rgba(255, 165, 0, 0)',
+                'rgba(255, 165, 0, 1)'
+            ];
+
+            heatmapRed.set('gradient', red);
+            heatmapYellow.set('gradient', yellow);
+            heatmapLightGreen.set('gradient', lightGreen);
+            heatmapOrange.set('gradient', orange);
+            heatmapOliveGreen.set('gradient', oliveGreen);
+        }
+        function getPoints() {
+            return [
+                new google.maps.LatLng(22.2587, 71.1924),
+                new google.maps.LatLng(22.2583, 71.1914),
+                new google.maps.LatLng(22.2581, 71.1914),
+                new google.maps.LatLng(22.2587, 71.1924),
+                new google.maps.LatLng(22.2581, 71.1904),
+                new google.maps.LatLng(22.2587, 71.1924),
+                new google.maps.LatLng(22.2127, 71.1924),
+                new google.maps.LatLng(22.2587, 71.1924),
+                new google.maps.LatLng(22.2287, 71.1724),
+                new google.maps.LatLng(22.2527, 71.1624),
+                new google.maps.LatLng(22.2557, 71.1924),
+            ];
+        }
+        // Heatmap data: 500 Points
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNiEyjWEB_eywd0NQF0DheNIhewTjH68&libraries=visualization&callback=initMap">
+    </script>
+</body>
+
+</html>
