@@ -53,21 +53,97 @@
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
-        var map, heatmap;
+        var map;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
+                zoom: 4,
                 center: { lat: 20.5937, lng: 78.9629 },
 
                 draggable: true,
-                mapTypeId: 'satellite'
+                mapTypeId: 'roadmap',
+                styles: [
+                    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+                    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+                    { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
+                    {
+                        featureType: 'administrative.locality',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#d59563' }]
+                    },
+                    {
+                        featureType: 'poi',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#d59563' }]
+                    },
+                    {
+                        featureType: 'poi.park',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#263c3f' }]
+                    },
+                    {
+                        featureType: 'poi.park',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#6b9a76' }]
+                    },
+                    {
+                        featureType: 'road',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#38414e' }]
+                    },
+                    {
+                        featureType: 'road',
+                        elementType: 'geometry.stroke',
+                        stylers: [{ color: '#212a37' }]
+                    },
+                    {
+                        featureType: 'road',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#9ca5b3' }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#746855' }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.stroke',
+                        stylers: [{ color: '#1f2835' }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#f3d19c' }]
+                    },
+                    {
+                        featureType: 'transit',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#2f3948' }]
+                    },
+                    {
+                        featureType: 'transit.station',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#d59563' }]
+                    },
+                    {
+                        featureType: 'water',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#17263c' }]
+                    },
+                    {
+                        featureType: 'water',
+                        elementType: 'labels.text.fill',
+                        stylers: [{ color: '#515c6d' }]
+                    },
+                    {
+                        featureType: 'water',
+                        elementType: 'labels.text.stroke',
+                        stylers: [{ color: '#17263c' }]
+                    }
+                ]
             });
 
-            heatmapRed = new google.maps.visualization.HeatmapLayer({
-                data: buildRed(),
-                map: map
-            });
             function buildRed() {
                 return [
 			<% for (i = 0; i < mapData.filterRed.length; i++) { %>
@@ -104,6 +180,13 @@
 				<% }%>
 			]
             }
+
+
+            heatmapRed = new google.maps.visualization.HeatmapLayer({
+                data: buildRed(),
+                map: map,
+                radius: 24
+            });
             var heatmapOliveGreen = new google.maps.visualization.HeatmapLayer({
 
                 data: buildOliveGreen(),
@@ -119,7 +202,6 @@
 
             });
             var heatmapYellow = new google.maps.visualization.HeatmapLayer({
-
                 data: buildYellow(),
                 map: map,
                 radius: 24
@@ -161,22 +243,6 @@
             heatmapOrange.set('gradient', orange);
             heatmapOliveGreen.set('gradient', oliveGreen);
         }
-        function getPoints() {
-            return [
-                new google.maps.LatLng(22.2587, 71.1924),
-                new google.maps.LatLng(22.2583, 71.1914),
-                new google.maps.LatLng(22.2581, 71.1914),
-                new google.maps.LatLng(22.2587, 71.1924),
-                new google.maps.LatLng(22.2581, 71.1904),
-                new google.maps.LatLng(22.2587, 71.1924),
-                new google.maps.LatLng(22.2127, 71.1924),
-                new google.maps.LatLng(22.2587, 71.1924),
-                new google.maps.LatLng(22.2287, 71.1724),
-                new google.maps.LatLng(22.2527, 71.1624),
-                new google.maps.LatLng(22.2557, 71.1924),
-            ];
-        }
-        // Heatmap data: 500 Points
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNiEyjWEB_eywd0NQF0DheNIhewTjH68&libraries=visualization&callback=initMap">
     </script>

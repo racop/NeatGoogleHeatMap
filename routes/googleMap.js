@@ -2,16 +2,24 @@ var express = require('express');
 var router = express.Router();
 const async = require('async');
 var fetch = require("../my_modules/fetch");
-const State = require('../database_model/state_ct');
-const Country = require('../database_model/country_st');
-const Cities = require('../database_model/cities_ct');
 var url_get = require("../my_modules/mapcords");
-var nurl_get = require("../my_modules/nationalcord");
 
 router.get("/loadMap", (req, res) => {
     timer = 0;
+    //candidate_id,map_type
 
-
+    //api?candidate_id
+    //Result users rating for that candidate in map(state/national)
+    /*
+     data = [
+    {lat: 31.3260, lng: 75.5762, color: "olivegreen" },
+    {lat: 31.3160, lng: 75.5662, color: "red" },
+    {lat: 31.3050, lng: 75.5752, color: "orange" },
+    {lat: 31.3620, lng: 75.5763, color: "yellow" },
+    {lat: 31.3240, lng: 75.5764, color: "lightgreen" }
+     ]
+    
+    */
     data = [
         { name: "jal1", lat: 31.3260, lng: 75.5762, color: "olivegreen" },
         { name: "jal2", lat: 31.3160, lng: 75.5662, color: "red" },
@@ -72,10 +80,6 @@ router.get("/loadMap", (req, res) => {
     });
     var filterOrange = data.filter(function (itm) {
         return itm.color == "orange";
-    });
-    // console.log(filterRed);
-    v = filterRed.map(function (val) {
-        return val["lat"];
     });
     const mapData = {
         filterRed: filterRed.map(e => ({ lat: e.lat, lng: e.lng })),

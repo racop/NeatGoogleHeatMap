@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var mapRouter = require('./routes/handleMap');
 var googleRouter = require('./routes/googleMap');
 
 var app = express();
@@ -55,7 +54,7 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-port = process.env.PORT || 3000;
+port = process.env.PORT || 3500;
 app.listen(port, (err) => {
   console.log('listening on port ' + port);
 });
