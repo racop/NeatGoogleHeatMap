@@ -56,9 +56,11 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 8,
+                minZoom: 8, maxZoom: 8,
                 center: { lat: 22.2587, lng: 71.1924 },
-
-                draggable: true,
+                draggable: false,
+                scrollwheel: false,
+                scaleControl: false,
                 mapTypeId: 'roadmap',
                 styles: [
                     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },

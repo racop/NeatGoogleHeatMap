@@ -9,6 +9,7 @@
        * element that contains the map. */
         #map {
             height: 100%;
+            /* background-color:#32CD32 */
         }
 
         /* Optional: Makes the sample page fill the window. */
@@ -53,12 +54,15 @@
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
         var map;
+        var minZoomLevel = 5;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
+                zoom: minZoomLevel,
+                minZoom: 5, maxZoom: 5,
                 center: { lat: 20.5937, lng: 78.9629 },
-
-                draggable: true,
+                draggable: false,
+                scrollwheel: false,
+                scaleControl: false,
                 mapTypeId: 'roadmap',
                 styles: [
                     { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -139,7 +143,9 @@
                         elementType: 'labels.text.stroke',
                         stylers: [{ color: '#17263c' }]
                     }
-                ]
+                ],
+                // backgroundColor: '#32CD32'
+                backgroundColor: 'none'
             });
             function buildRed() {
                 return [
@@ -230,9 +236,78 @@
             heatmapOrange.set('gradient', orange);
             heatmapOliveGreen.set('gradient', oliveGreen);
         }
+        // Bounds for North America
+   var strictBounds = new google.maps.LatLngBounds(
+     new google.maps.LatLng(23.63936, 68.14712), 
+     new google.maps.LatLng(28.20453, 97.34466)
+   );
+
+   // Listen for the dragend event
+   google.maps.event.addListener(map, 'dragend', function() {
+     if (strictBounds.contains(map.getCenter())) return;
+
+     // We're out of bounds - Move the map back within the bounds
+
+     var c = map.getCenter(),
+         x = c.lng(),
+         y = c.lat(),
+         maxX = strictBounds.getNorthEast().lng(),
+         maxY = strictBounds.getNorthEast().lat(),
+         minX = strictBounds.getSouthWest().lng(),
+         minY = strictBounds.getSouthWest().lat();
+
+     if (x < minX) x = minX;
+     if (x > maxX) x = maxX;
+     if (y < minY) y = minY;
+     if (y > maxY) y = maxY;
+
+     map.setCenter(new google.maps.LatLng(y, x));
+   });
+
+   // Limit the zoom level
+   google.maps.event.addListener(map, 'zoom_changed', function() {
+     if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+   });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNiEyjWEB_eywd0NQF0DheNIhewTjH68&libraries=visualization&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNiEyjWEB_eywd0NQF0DheNIhewTjH68&region=IN&libraries=visualization&callback=initMap">
     </script>
 </body>
 
 </html>
+// <!-- <html>
+//   <head>
+//     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+//     <script type="text/javascript">
+//       google.charts.load('current', {
+//         'packages':['geomap'],
+//         // Note: you will need to get a mapsApiKey for your project.
+//         // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+//         'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+//       });
+//       google.charts.setOnLoadCallback(drawMap);
+
+//       function drawMap() {
+//         var data = google.visualization.arrayToDataTable([
+//         ['City', 'Popularity'],
+//         ['New York', 200],
+//         ['Boston', 300],
+//         ['Miami', 400],
+//         ['Chicago', 500],
+//         ['Los Angeles', 600],
+//         ['Houston', 700]
+//         ]);
+
+//         var options = {};
+//         options['region'] = 'US';
+
+//         var container = document.getElementById('regions_div');
+//         var geomap = new google.visualization.GeoMap(container);
+
+//         geomap.draw(data, options);
+//       };
+//     </script>
+//   </head>
+//   <body>
+//     <div id="regions_div" style="width: 900px; height: 500px;"></div>
+//   </body>
+// </html> -->

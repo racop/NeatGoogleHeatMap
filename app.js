@@ -7,12 +7,12 @@ var logger = require('morgan');
 var googleRouter = require('./routes/googleMap');
 
 var app = express();
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-var mongoURL = "mongodb://localhost:27017/map_ven";
-mongoose.connect(process.env.MONGO_URL || mongoURL, { useNewUrlParser: true })
-  .then(() => console.log('db connection succesful'))
-  .catch((err) => console.error(err));
+// var mongoose = require('mongoose');
+// mongoose.Promise = global.Promise;
+// var mongoURL = "mongodb://localhost:27017/map_ven";
+// mongoose.connect(process.env.MONGO_URL || mongoURL, { useNewUrlParser: true })
+//   .then(() => console.log('db connection succesful'))
+//   .catch((err) => console.error(err));
 
 
 
